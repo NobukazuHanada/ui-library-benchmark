@@ -4,10 +4,19 @@ import type { Item } from "./data/items";
 
 export const searchQuery = writable("");
 
-
+let timeoutId : any;
+const intervalTime = 200;
+const delaySearchQuery : Readable<string> = derived(searchQuery, (searchQuery, set)=>{    
+    if(timeoutId){
+        clearTimeout(timeoutId);
+    }
+    timeoutId = setTimeout(()=>{
+        set(searchQuery);
+    }, intervalTime);
+});
 
 export function matched(item: Item | undefined): Readable<"no match" | { prefix: string, marked: string, suffix: string }> {
-    return derived(searchQuery, (searchQuery, set) => {
+    return derived(delaySearchQuery, (searchQuery, set) => {
         if (!item) {
             set("no match");
             return;

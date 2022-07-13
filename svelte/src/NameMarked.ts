@@ -13,7 +13,11 @@ export function matched(item: Item | undefined): Readable<"no match" | { prefix:
             return;
         }
         if (!searchQuery) {
-            set("no match");
+            set({
+                prefix: item.en,
+                marked: "",
+                suffix: ""
+            });
             return;
         }
 

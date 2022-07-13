@@ -2,14 +2,15 @@
   import Item from "./components/Item.svelte";
   import SearchBox from "./components/SearchBox.svelte";
   import { itemMap } from "./data/items";
+  import { searchQuery } from "./NameMarked";
 
-  let input = "";
   const itemIds = Array.from(itemMap.keys());
+
 </script>
 
 <div class="pokemonList">
   {#each itemIds as id}
-    <Item {id} searchQuery={input} />
+    <Item {id} item={itemMap.get(id)} />
   {/each}
 </div>
 
@@ -22,7 +23,7 @@
 </footer>
 
 <div class="searchBox">
-  <SearchBox bind:value={input} />
+  <SearchBox bind:value={$searchQuery} />
 </div>
 
 <style>
